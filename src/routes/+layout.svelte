@@ -1,11 +1,26 @@
-<script>
+<script lang="ts">
 	import '../app.css';
+	import Header from './Header.svelte';
+    import Footer from './Footer.svelte';
 </script>
 
-<slot />
+<header>
+	<Header />
+</header>
 
-<style lang="scss">
-    :global(body) {
-        @apply bg-slate-800
-    }
+<main class="flex-auto">
+	<slot />
+</main>
+
+<footer>
+    <Footer />
+</footer>
+
+<style lang="postcss">
+	:global(html) {
+		@apply bg-[#14001a];
+	}
+    :global(.glow) {
+		text-shadow: 0 0 5px;
+	}
 </style>
