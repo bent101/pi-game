@@ -7,7 +7,7 @@ const createLocalStorageStore = <Type>(name: string, init: Type): Writable<Type>
 	}
 	const store = writable(val);
 	store.subscribe((value) => {
-		localStorage.setItem(name, String(value));
+		localStorage.setItem(name, JSON.stringify(value));
 	});
 
 	return store;

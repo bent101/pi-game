@@ -20,6 +20,7 @@
 
 	const restartGame = () => {
 		$games.push({ score, hints, mistakes });
+		$games = $games;
 		i = 4;
 		$highScore = Math.max($highScore, score);
 		$gamesPlayed++;
@@ -80,7 +81,7 @@
 
 <div
 	class:opacity-0={!playing}
-	class="flex flex-1 items-center justify-center gap-24 transition-opacity duration-150"
+	class="flex basis-0 flex-1 items-center justify-center gap-24 transition-opacity duration-150"
 >
 	<LabeledNumber num={score} name="{mistakes} mistake{mistakes === 1 ? '' : 's'}" />
 </div>
@@ -103,7 +104,7 @@
 
 <div
 	class:opacity-0={!playing}
-	class="flex flex-1 items-center justify-center gap-16 transition-opacity delay-100 duration-150"
+	class="flex basis-0 flex-1 items-center justify-center gap-16 transition-opacity delay-100 duration-150"
 >
 	<KeyboardShortcut key={"e"} action={"get a hint"} />
 	<KeyboardShortcut key={"r"} action={"finish"} />

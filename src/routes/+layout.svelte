@@ -24,6 +24,6 @@
 		text-shadow: 0 0 5px;
 	}
 	:global(*) {
-		user-select: none;
+		@apply select-none;
 	}
 </style>
