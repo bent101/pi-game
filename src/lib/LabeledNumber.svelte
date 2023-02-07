@@ -4,10 +4,10 @@
 </script>
 
 <div class="w-52">
-	<div class="text-center decoration-fuchsia-800/75 font-mono text-7xl text-fuchsia-800 pb-2">
+	<div class="pb-2 text-center font-mono text-7xl text-fuchsia-600 overflow-hidden">
 		{num}
 	</div>
-	<div class="font-extrabold text-fuchsia-800/75 text-center uppercase tracking-wide">
+	<div class="text-center text-base font-extrabold uppercase tracking-wide text-fuchsia-800/75">
 		{name}
 	</div>
 </div>

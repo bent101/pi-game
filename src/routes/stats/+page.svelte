@@ -1,15 +1,11 @@
 <script lang="ts">
-	import { gamesPlayed, keysPressed, mistakesMade } from "./stats.js";
+	import { highScore, gamesPlayed, keysPressed, mistakesMade } from "./stats.js";
+	import LabeledNumber from "$lib/LabeledNumber.svelte";
 </script>
 
-<div class=" px-48 pt-24">
-	<div class="grid grid-cols-2 gap-4 justify-center">
-		<div class="h-32 border border-lime-500">
-            Games Played
-        </div>
-        <div class="h-32 border border-lime-500" />
-		<div class="h-32 border border-lime-500" />
-		<div class="h-32 border border-lime-500" />
-		<div class="h-32 border border-lime-500" />
-	</div>
+<div class="flex h-full flex-1 items-center justify-center">
+	<LabeledNumber name={"high score"} num={$highScore} />
+	<LabeledNumber name={"games played"} num={$gamesPlayed} />
+	<LabeledNumber name={"keys pressed"} num={$keysPressed} />
+	<LabeledNumber name={"mistakes made"} num={$mistakesMade} />
 </div>
