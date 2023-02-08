@@ -19,11 +19,11 @@
 		</div>
 	</div>
 {:else}
-	<div class="flex items-center justify-center gap-4 text-center">
+	<div class="flex items-center justify-center gap-3 text-center">
 		<label
 			class="{showingPerfectGames
 				? 'bg-fuchsia-800 text-[#14001a]'
-				: 'text-fuchsia-800'} rounded-full border-2 border-fuchsia-800 px-4 py-2 text-base font-extrabold uppercase tracking-wide"
+				: 'text-fuchsia-800'} rounded-full border-2 border-fuchsia-800 px-3 py-2 text-base font-extrabold uppercase tracking-wide"
 		>
 			Show only perfect games
 			<input type="checkbox" class="hidden" bind:checked={showingPerfectGames} />

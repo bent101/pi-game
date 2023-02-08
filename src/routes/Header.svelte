@@ -9,7 +9,7 @@
 
 <div class="flex items-center justify-center">
 	<nav
-		class="flex h-16 w-fit items-center justify-center rounded-full bg-fuchsia-900 px-5 text-xl font-bold uppercase text-[#14001a] decoration-4 underline-offset-4"
+		class="flex h-16 w-fit items-center justify-center rounded-full bg-fuchsia-800 px-5 text-xl font-bold uppercase text-[#14001a] decoration-4 underline-offset-4"
 	>
 		{#each nav as { url, name }}
 			<span class:underline={$page.url.pathname === url}>
