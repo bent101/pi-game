@@ -37,16 +37,25 @@
 			<input type="checkbox" class="hidden" bind:checked={sorting} />
 		</label>
 	</div>
-	<div class="mt-6 flex flex-wrap justify-center gap-4">
-		{#each sortedGames as { score, hints, mistakes, id } (id)}
-			<div animate:flip={{ duration: 300 }} class=" rounded-2xl bg-fuchsia-900/10 p-4">
-				<LabeledNumber
-					num={score}
-					singular="{hints} hint{hints === 1 ? '' : 's'} • {mistakes} mistake{mistakes === 1
-						? ''
-						: 's'}"
-				/>
+
+	{#if sortedGames.length === 0}
+		<div class="flex flex-1 items-center justify-center">
+			<div class="text-base font-extrabold uppercase tracking-wide text-fuchsia-800">
+				No perfect games yet (0 mistakes/hints)
 			</div>
-		{/each}
-	</div>
+		</div>
+	{:else}
+		<div class="mt-6 flex flex-wrap justify-center gap-4">
+			{#each sortedGames as { score, hints, mistakes, id } (id)}
+				<div animate:flip={{ duration: 300 }} class=" rounded-2xl bg-fuchsia-900/10 p-4">
+					<LabeledNumber
+						num={score}
+						singular="{hints} hint{hints === 1 ? '' : 's'} • {mistakes} mistake{mistakes === 1
+							? ''
+							: 's'}"
+					/>
+				</div>
+			{/each}
+		</div>
+	{/if}
 {/if}
