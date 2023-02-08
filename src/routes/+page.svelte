@@ -1,32 +1,35 @@
 <script lang="ts">
 	import KeyboardShortcut from "$lib/KeyboardShortcut.svelte";
 	import LabeledNumber from "$lib/LabeledNumber.svelte";
-	import { highScore, gamesPlayed, keysPressed, mistakesMade, games } from "./stats/stats";
+	import {
+		highScore,
+		gamesPlayed,
+		keysPressed,
+		mistakesMade,
+		games,
+		curGame,
+		firstTime
+	} from "../lib/stores";
 
 	let pi =
 		"3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268";
-	let hints = 0;
-	let mistakes = 0;
-	let i = 4;
-	$: score = i - 4;
+	$: i = $curGame.score + 4;
 	$: typedDigits = pi.slice(0, i);
 	$: hintDigits = pi.slice(i, i + 15);
 	let blinking = true;
 	let cursorBlinkingTimeout: NodeJS.Timeout;
 	let redBlinkingTimeout: NodeJS.Timeout;
 	let showingHint = false;
-	let playing = false;
+	let playing = !$firstTime;
+	$firstTime = false;
 	let blinkingRed = false;
 
 	const restartGame = () => {
-		$games.push({ score, hints, mistakes });
-		$games = $games;
-		i = 4;
-		$highScore = Math.max($highScore, score);
+		$games = [{ ...$curGame }, ...$games];
+		$highScore = Math.max($highScore, $curGame.score);
+		$curGame = { score: 0, hints: 0, mistakes: 0 };
+		console.log($curGame);
 		$gamesPlayed++;
-		hints = 0;
-		mistakes = 0;
-		playing = false;
 		blinkingRed = false;
 		showingHint = false;
 	};
@@ -38,12 +41,13 @@
 					showingHint = false;
 				} else {
 					showingHint = true;
-					hints++;
+					$curGame.hints++;
 				}
 				return;
 			}
-			if (e.key === "r") {
+			if (e.key === "Enter") {
 				restartGame();
+				return;
 			}
 		}
 
@@ -51,10 +55,11 @@
 
 		$keysPressed++;
 		playing = true;
+		showingHint = false;
 		if (pi[i] === e.key) {
-			i++;
+			$curGame.score++;
 		} else {
-			mistakes++;
+			$curGame.mistakes++;
 			$mistakesMade++;
 			blinkingRed = true;
 			clearTimeout(redBlinkingTimeout);
@@ -69,21 +74,20 @@
 			blinking = true;
 		}, 2000);
 	};
-
-	const keyup = (e: KeyboardEvent) => {
-		// if (e.key === "e") {
-		// 	showingHint = false;
-		// }
-	};
 </script>
 
-<svelte:body on:keydown={keydown} on:keyup={keyup} />
+<svelte:body on:keydown={keydown} />
 
 <div
 	class:opacity-0={!playing}
-	class="flex basis-0 flex-1 items-center justify-center gap-24 transition-opacity duration-150"
+	class="flex flex-1 basis-0 items-center justify-center gap-24 transition-opacity duration-150"
 >
-	<LabeledNumber num={score} name="{mistakes} mistake{mistakes === 1 ? '' : 's'}" />
+	<LabeledNumber
+		num={$curGame.score}
+		singular="{$curGame.hints} hint{$curGame.hints === 1
+			? ''
+			: 's'} • {$curGame.mistakes} mistake{$curGame.mistakes === 1 ? '' : 's'}"
+	/>
 </div>
 
 <div class="flex">
@@ -104,10 +108,10 @@
 
 <div
 	class:opacity-0={!playing}
-	class="flex basis-0 flex-1 items-center justify-center gap-16 transition-opacity delay-100 duration-150"
+	class="flex flex-1 basis-0 items-center justify-center gap-16 transition-opacity delay-100 duration-150"
 >
 	<KeyboardShortcut key={"e"} action={"get a hint"} />
-	<KeyboardShortcut key={"r"} action={"finish"} />
+	<KeyboardShortcut key={"Enter"} action={"finish"} />
 </div>
 
 <style lang="postcss">
