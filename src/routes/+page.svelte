@@ -45,7 +45,7 @@
 				}
 				return;
 			}
-			if (e.key === "Enter") {
+			if (e.key === "Enter" && $curGame.score > 0) {
 				restartGame();
 				return;
 			}
