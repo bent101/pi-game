@@ -4,7 +4,7 @@
 	export let plural = "";
 </script>
 
-<div class="w-52">
+<div class="w-56">
 	<div class="overflow-hidden pb-2 text-center font-mono text-7xl text-fuchsia-600">
 		{num}
 	</div>
