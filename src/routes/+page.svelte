@@ -26,7 +26,9 @@
 
 	const restartGame = () => {
 		$games = [{ ...$curGame }, ...$games];
-		$highScore = Math.max($highScore, $curGame.score);
+		if ($curGame.mistakes === 0 && $curGame.hints === 0) {
+			$highScore = Math.max($highScore, $curGame.score);
+		}
 		$curGame = { score: 0, hints: 0, mistakes: 0 };
 		console.log($curGame);
 		$gamesPlayed++;
@@ -45,13 +47,21 @@
 				}
 				return;
 			}
-			if (e.key === "Enter" && $curGame.score > 0) {
-				restartGame();
-				return;
+			if ($curGame.score > 0) {
+				if (e.key === "Enter") {
+					restartGame();
+					return;
+				}
+				if (e.key === "Backspace") {
+					$curGame.score--;
+					return;
+				}
 			}
 		}
 
-		if (e.metaKey || isNaN(+e.key) || e.key < "0" || e.key > "9") return;
+		if (e.metaKey || isNaN(+e.key) || e.key < "0" || e.key > "9") {
+			return;
+		}
 
 		$keysPressed++;
 		playing = true;
@@ -141,7 +151,7 @@
 	}
 
 	.flash-red {
-		animation: flash-red 0.4s infinite;
+		animation: flash-red 0.2s infinite;
 	}
 
 	@keyframes blinking {
